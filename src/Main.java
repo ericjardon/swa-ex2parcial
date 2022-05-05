@@ -1,3 +1,5 @@
+import front.UserInterface;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -8,5 +10,11 @@ public class Main {
         * y permita hacer depositos o retiros de la cuenta seleccionada.
         *
         * */
+
+        UserInterface menu = new UserInterface();
+
+        while (!menu.isDone()) {
+            menu.promptOperation();
+        }
     }
 }
