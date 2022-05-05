@@ -21,8 +21,7 @@ public class OperationFactory
 
     public BankOperation createDeposito(String numeroCuenta, double monto) {
         // TODO
-
-        return null;
+        return new Deposito(numeroCuenta, monto, this.service);
     }
 
     public BankOperation createRetiro(String numeroCuenta, double monto) {

@@ -15,56 +15,62 @@ public class CuentaService {
 
     // add fields for Repository
 
-    public void retirar(String id, double monto){
+    public boolean retirar(String id, double monto){
         Cuenta c = RepositorySingleton.getRepository().obtenerCuenta(id);
         if (c ==  null) {
             System.out.println("ERROR: Cuenta inexistente");
-            return;
+            return false;
         }
         if (monto <= c.getMonto()) {
             double nuevoMonto = c.getMonto() - monto;
             RepositorySingleton.getRepository().actualizarMontoDeCuenta(id, nuevoMonto);
+            return true;
         } else {
             System.out.println("ERROR: Saldo insuficiente");
+            return false;
         }
     }
 
-    public void retirar(String id, double monto, double comision) {
+    public boolean retirar(String id, double monto, double comision) {
         Cuenta c = RepositorySingleton.getRepository().obtenerCuenta(id);
         if (c ==  null) {
             System.out.println("ERROR: Cuenta inexistente");
-            return;
+            return false;
         }
         if ( (monto + comision) <= c.getMonto()) {
             double nuevoMonto = c.getMonto() - monto - comision;
             RepositorySingleton.getRepository().actualizarMontoDeCuenta(id, nuevoMonto);
+            return true;
         } else {
             System.out.println("ERROR: Saldo insuficiente");
+            return false;
         }
     }
 
-    public void depositar(String id, double monto){
+    public boolean depositar(String id, double monto){
         Cuenta c = RepositorySingleton.getRepository().obtenerCuenta(id);
         if (c ==  null) {
             System.out.println("ERROR: Cuenta inexistente");
-            return;
+            return false;
         }
 
         double nuevoMonto = c.getMonto() + monto;
         RepositorySingleton.getRepository().actualizarMontoDeCuenta(id, nuevoMonto);
+        return true;
     }
 
-    public void agregarCuenta(Cuenta c){
+    private void agregarCuenta(Cuenta c){
         // Generar nuevo ID
         RepositorySingleton.getRepository().agregarCuenta(c);
     }
 
-    public void crearCuenta(String nombre) {
+    public boolean crearCuenta(String nombre) {
         String newId = RandomId.getRandomId(8);
         Cuenta c = new Cuenta(nombre, newId);
         agregarCuenta(c);
         String msg = String.format("CREA NUEVA CUENTA: %s, %s", newId, nombre);
         System.out.println(msg);
+        return true;
     }
 
     public List<Banco> getSupportedBanks() {
