@@ -11,7 +11,7 @@ public class Main {
         *
         * */
 
-        UserInterface menu = new UserInterface(true);
+        UserInterface menu = new UserInterface(false);
 
         while (!menu.isDone()) {
             menu.promptOperation();
