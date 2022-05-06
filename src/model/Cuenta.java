@@ -31,6 +31,11 @@ public class Cuenta {
         return numeroDeCuenta;
     }
 
+    @Override
+    public String toString() {
+        return String.format("------------\n| Nombre: %s\n| Cuenta: %s\n| Saldo: $%.2f\n------------", nombre, numeroDeCuenta, monto);
+    }
+
     public void setNumeroDeCuenta(String numeroDeCuenta) {
         this.numeroDeCuenta = numeroDeCuenta;
     }

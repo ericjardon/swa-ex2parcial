@@ -19,8 +19,7 @@ public class RetiroComision implements BankOperation {
 
     @Override
     public void execute() {
-        String output = String.format("Cuenta: %s \t Retiro con comisión por %f", numeroDeCuenta, monto + banco.getComision());
-        System.out.println(output);
+
         service.retirar(numeroDeCuenta, monto, banco.getComision());
     }
 }

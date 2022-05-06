@@ -21,14 +21,24 @@ public class OperationFactory
 
     public BankOperation createDeposito(String numeroCuenta, double monto) {
         // TODO
-        return new Deposito(numeroCuenta, monto, this.service);
+        return new Deposito(this.service, numeroCuenta, monto);
     }
 
     public BankOperation createRetiro(String numeroCuenta, double monto) {
-        return null;
+
+        return new Retiro(this.service, numeroCuenta, monto);
     }
 
-    public BankOperation createRetiroComision(String numeroCuenta, double monto, Banco bank) {
-        return null;
+    public BankOperation createRetiroComision(String numeroCuenta, double monto, Banco banco) {
+
+        return new RetiroComision(this.service, numeroCuenta, monto, banco);
+    }
+
+    public BankOperation createConsulta(String numCuenta) {
+        return new Consulta(this.service, numCuenta);
+    }
+
+    public BankOperation createAlta(String nombre) {
+        return new Alta(this.service, nombre);
     }
 }

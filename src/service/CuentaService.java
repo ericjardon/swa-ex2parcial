@@ -12,8 +12,14 @@ import java.util.Random;
 /* This class implements business-level logic of the Bank Account system */
 
 public class CuentaService {
-
+    private boolean debug;
     // add fields for Repository
+    public CuentaService() {
+        this.debug = false;
+    }
+    public CuentaService(boolean debug) {
+        this.debug = debug;
+    }
 
     public boolean retirar(String id, double monto){
         Cuenta c = RepositorySingleton.getRepository().obtenerCuenta(id);
@@ -40,6 +46,8 @@ public class CuentaService {
         if ( (monto + comision) <= c.getMonto()) {
             double nuevoMonto = c.getMonto() - monto - comision;
             RepositorySingleton.getRepository().actualizarMontoDeCuenta(id, nuevoMonto);
+            String output = String.format("Cuenta: %s \t Retiro con comision por %.2f", id, monto + comision);
+            System.out.println(output);
             return true;
         } else {
             System.out.println("ERROR: Saldo insuficiente");
@@ -64,13 +72,18 @@ public class CuentaService {
         RepositorySingleton.getRepository().agregarCuenta(c);
     }
 
-    public boolean crearCuenta(String nombre) {
+    public void crearCuenta(String nombre) {
         String newId = RandomId.getRandomId(8);
         Cuenta c = new Cuenta(nombre, newId);
         agregarCuenta(c);
-        String msg = String.format("CREA NUEVA CUENTA: %s, %s", newId, nombre);
-        System.out.println(msg);
-        return true;
+
+        System.out.printf("NUEVA CUENTA: %s, %s\n", newId, nombre);
+
+    }
+
+    public void consultarCuenta(String numCuenta) {
+        Cuenta c = RepositorySingleton.getRepository().obtenerCuenta(numCuenta);
+        System.out.println(c);
     }
 
     public List<Banco> getSupportedBanks() {

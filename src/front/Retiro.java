@@ -17,7 +17,7 @@ public class Retiro implements BankOperation {
 
     @Override
     public void execute() {
-        String output = String.format("Cuenta: %s \t Retiro por %f", numeroDeCuenta, monto);
+        String output = String.format("Cuenta: %s \t Retiro por %.2f", numeroDeCuenta, monto);
         System.out.println(output);
         service.retirar(numeroDeCuenta, monto);
     }
