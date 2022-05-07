@@ -3,7 +3,7 @@
 
 **Descripción**: Sistema de un Banco que implementa la ejecución de operaciones 
 de depósito y retiro de cuentas de ese banco. 
-El sistema es monolito, utiliza una fuente de datos
+El sistema es autocontenido, utiliza una fuente de datos
 volátil (en memoria) y asume un número de cuentas pre-existentes para fines demostrativos.
 
 ### Estilo Arquitectónico
@@ -32,8 +32,15 @@ se encuentran en la clase `Main`.
 #### Comportamiento
 - Command
 
-### Otras Notas
+### Refactorización
+1. Los mensajes a consola se condicionaron a un atributo de clase `debug` para que el programador tenga más control acerca del output en consola.
+2. En el método `selectBancos` se añadió una validación de input entero válido, solcitando el valor las veces necesarias,
+   para evitar IndexOutOfBounds.
+3. Inicialmente se esperaba que la clase UserInterface llamara directamente a los métodos de CuentaService. Pero para
+   reforzar la arquitectura por capas, se decidió añadir una capa de comandas (Command Pattern) actuando como una
+   capa intermedia, con un método execute que es el que llama a los métodos del CuentaService correspondientes.
 
+### Acerca de
 Para este proyecto se decidió modificar lo menos posible el esqueleto de clases inicial.
 
 La clase UserInterface captura el input del usuario y crea los comandos correspondientes
