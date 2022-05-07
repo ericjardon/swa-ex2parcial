@@ -7,10 +7,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserInterface {
-    /* This class provides an interface for the user.
-    * It provides a way to collect bank operation parameters
-    * and of sending them as commands to the CuentaService receiver
-    * */
 
     CuentaService service;
     private OperationFactory ops;
@@ -46,7 +42,7 @@ public class UserInterface {
         ops = new OperationFactory(service);
         bancos = (ArrayList<Banco>) service.getSupportedBanks();
 
-        finished = false;
+        finished = false;  // flag to stop asking for user input
         in = new Scanner(System.in);
         System.out.println("~~ BIENVENIDX AL SISTEMA BANCARIO ~~");
     }
@@ -61,19 +57,28 @@ public class UserInterface {
     private Banco selectBanco() {
         int i = 0;
         for (Banco b : bancos) {
-            System.out.println("> %d -- %s".formatted(i + 1, b.getNombre()));
+            System.out.println("> %d -- Banco %s (comision $%.2f)".formatted(i + 1, b.getNombre(), b.getComision()));
             i++;
         }
-        System.out.print("Selecciona tu banco -> ");
-        Integer selection = in.nextInt();
-        in.nextLine();
+        Integer selection = -1;
+        while (true) {
+            System.out.print("Selecciona tu banco -> ");
+            selection = in.nextInt();
+            in.nextLine();
+            if (selection > 0 && selection <= bancos.size() ) {
+                break;
+            }
+            else {
+                System.out.println("Seleccion invalida.");
+            }
+        }
+
         return bancos.get(selection - 1);
 
     }
 
 
     public void promptOperation() {
-        // TODO
         int selection = -1;
         // receives parameters for user and creates the corresponding Command.
         // then after confirmation calls dispatchOperation.
@@ -107,22 +112,19 @@ public class UserInterface {
                 promptConsulta();
                 break;
             case -1:
-                System.out.println("\nGracias por usar el sistema.");
                 finished = true;
                 break;
             default:
-                // code block
                 // prompt again
                 System.out.println("(!) Opcion invalida.");
         }
 
         System.out.println("1 -- Otra operacion");
         System.out.println("2 -- Salir");
-        System.out.print("> ");
+        System.out.print("-> ");
         int again = in.nextInt();
         in.nextLine();
         if (again!= 1) {
-            System.out.println("\nGracias por usar el sistema.");
             finished = true;
         }
     }
@@ -135,6 +137,8 @@ public class UserInterface {
     }
 
     private void promptConsulta() {
+        // Creates a Consulta Command and calls dispatch on it.
+
         System.out.print("Ingresa no. de Cuenta (8 digitos) ->");
         String numCuenta = in.nextLine();
 
@@ -161,7 +165,7 @@ public class UserInterface {
     private void promptRetiroComision() {
         // Creates a Retiro Command and calls dispatch on it.
         Banco banco = selectBanco();
-        System.out.print("Ingresa no. de Cuenta (8 dígitos) ->");
+        System.out.print("Ingresa no. de Cuenta (8 digitos) ->");
         String numCuenta = in.nextLine();
         System.out.print("Monto de retiro -> $");
         Double monto = in.nextDouble();
@@ -173,7 +177,7 @@ public class UserInterface {
     }
 
     private void promptRetiro() {
-        // Creates a Deposito Command and calls dispatch on it.
+        // Creates a Retiro Command and calls dispatch on it.
 
         System.out.print("Ingresa no. de Cuenta (8 digitos) ->");
         String numCuenta = in.nextLine();

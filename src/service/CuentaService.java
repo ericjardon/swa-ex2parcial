@@ -90,4 +90,3 @@ public class CuentaService {
         return RepositorySingleton.getRepository().getBancos();
     }
 }
-

@@ -14,7 +14,6 @@ public class RepositorySingleton extends CuentaRepository
         if (repository == null) {
             repository = new RepositorySingleton();
         }
-
         return repository;
     }
 
